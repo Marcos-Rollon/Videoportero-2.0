@@ -1,37 +1,50 @@
 <script>
-import {onMount} from 'svelte'
-export let showSeconds = true
+  import { onMount, onDestroy } from "svelte";
+  export let showSeconds = true;
 
-let clock
-function startTime() {
-  var today = new Date();
-  var h = today.getHours();
-  var m = today.getMinutes();
-  var s = today.getSeconds();
-  m = checkTime(m);
-  s = checkTime(s);
-  if (!showSeconds){
-    clock.innerHTML =  h + ":" + m;    
-  }else {
-    clock.innerHTML =  h + ":" + m + ":" + s;
+  let clock;
+  let t;
+  function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    if (!showSeconds) {
+      clock.innerHTML = h + ":" + m;
+    } else {
+      clock.innerHTML = h + ":" + m + ":" + s;
+    }
+    t = setTimeout(startTime, 500);
   }
-  var t = setTimeout(startTime, 500);
-}
-function checkTime(i) {
-  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-  return i;
-}
+  function checkTime(i) {
+    if (i < 10) {
+      i = "0" + i;
+    } // add zero in front of numbers < 10
+    return i;
+  }
 
-onMount(()=>{
-    startTime()
-})
+  onMount(() => {
+    startTime();
+  });
+  onDestroy(() => {
+    clearInterval(t);
+  });
 </script>
 
 <style>
-    p{
-        color: white;
-        font-size: 3em;
-    }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  p {
+    color: white;
+    font-size: 3em;
+  }
 </style>
 
-<p bind:this={clock}></p>
+<div class="container">
+  <p bind:this={clock} />
+</div>

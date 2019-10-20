@@ -1,9 +1,10 @@
 <script>
-  import RoundButton from "../components/RoundButton.svelte";
-  import ClockElement from "../components/Clock.svelte";
   import { fade } from "svelte/transition";
-  export let settingsButtonAction = () => {};
+  import RoundButton from "../components/RoundButton.svelte";
+  import MessageCard from "../components/MessageCard.svelte";
+  export let messages = [];
   export let messageButtonAction = () => {};
+  export let settingsButtonAction = () => {};
 </script>
 
 <style>
@@ -27,11 +28,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    overflow-y: auto;
     grid-row: 2;
     color: white;
-  }
-  .main > h1 {
-    font-size: 2em;
   }
 </style>
 
@@ -41,14 +40,13 @@
       source="./assets/settings-gears.svg"
       onClick={settingsButtonAction} />
     <RoundButton
-      source="./assets/envelope.svg"
+      source="./assets/open-envelope.svg"
       onClick={messageButtonAction}
       withRoundBorder={true} />
   </div>
-
   <div class="main">
-    <h1>[NOMBRE URBANIZACIÓN / INSTALACIÓN]</h1>
-    <ClockElement showSeconds={false} />
+    {#each messages as { title, content, author }, i}
+      <MessageCard {title} message={content} />
+    {/each}
   </div>
-
 </div>
