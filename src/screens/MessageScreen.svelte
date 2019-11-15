@@ -45,8 +45,13 @@
       withRoundBorder={true} />
   </div>
   <div class="main">
+  {#if messages.lenght != 0}
     {#each messages as { title, content, author }, i}
       <MessageCard {title} message={content} />
     {/each}
+  {:else}
+    <h2>No hay mensajes</h2>
+  {/if}
+    
   </div>
 </div>

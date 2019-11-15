@@ -4,10 +4,12 @@
 
   const dispatch = createEventDispatcher();
   export let backButtonAction = () => {};
+  export let defaultSignalingIP
+  export let defaultSocketIP
 
-  let signalingServerInput;
-  let socketServerInput;
-  let userIdentifierInput;
+  let signalingServerInput = localStorage.getItem("signaling-server-ip") || defaultSignalingIP
+  let socketServerInput = localStorage.getItem("socket-server-ip") || defaultSocketIP
+  let userIdentifierInput = localStorage.getItem("user-identifier") || "";
   let applyButton;
 
   function handleApplyButton() {

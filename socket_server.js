@@ -14,6 +14,7 @@ let server = app.listen(port, err => {
 
 let clientPath = __dirname + "/public";
 app.use(express.static(clientPath));
+app.use("/portero", express.static(__dirname + "/portero"))
 
 const io = socket(server);
 
@@ -49,6 +50,34 @@ function newConnection(socket) {
     console.log("Current clients: ");
     console.log(clients);
   });
+  // Sent by the caller if he wants to hang up befor the peer conection is made
+  socket.on("hang-up", data => {
+    //data =>{calleeId: String}
+    // Find the client
+    const client = clients.find(element => {
+      return element.name == data.calleeId;
+    });
+    if (!client) {
+      console.log("Trying hang up to a client that it does not exits");
+      return;
+    }
+    // Pipe event to callee
+    io.to(client.socketid).emit('hang-up')
+  })
+  // Sent by the client to tell the door to open/close
+  socket.on("door-events", data => {
+    // data => {action : STRING, callerID: STRING}
+    const client = clients.find(element => {
+      return element.name == data.callerID;
+    });
+    if (!client) {
+      console.log("Trying send door command to a client that does not exits");
+      return;
+    }
+    io.to(client.socketid).emit("door-events", {
+      action: data.action
+    });
+  })
 
   // Event sent from the caller to the callee
   socket.on("call-request", data => {

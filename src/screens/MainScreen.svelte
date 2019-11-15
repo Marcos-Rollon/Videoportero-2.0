@@ -4,6 +4,7 @@
   import { fade } from "svelte/transition";
   export let settingsButtonAction = () => {};
   export let messageButtonAction = () => {};
+  export let connectedStatus = false
 </script>
 
 <style>
@@ -21,6 +22,7 @@
     grid-row: 1;
     padding: 5px;
     justify-content: space-between;
+    color:white;
   }
   .main {
     display: flex;
@@ -33,6 +35,12 @@
   .main > h1 {
     font-size: 2em;
   }
+  .connected{
+    color: green;
+  }
+  .disconnected{
+    color: red;
+  }
 </style>
 
 <div class="container" transition:fade={{ duration: 200 }}>
@@ -40,6 +48,10 @@
     <RoundButton
       source="./assets/settings-gears.svg"
       onClick={settingsButtonAction} />
+      <h2 class:connected="{connectedStatus}"
+      class:disconnected="{!connectedStatus}">
+        {connectedStatus ? "Conectado" : "Desconectado"}
+      </h2>
     <RoundButton
       source="./assets/envelope.svg"
       onClick={messageButtonAction}

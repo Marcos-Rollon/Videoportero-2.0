@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Portero</title>
+    <style>
+        #my_camera{
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <video src="" id="my_camera" autoplay></video>
+    <video src="" id="peer_camera" autoplay></video>
+    <input type="text" id="main-input">
+    <button id="call-button">Call</button>
+    <button id="hang-up-button">Hang Up</button>
+    <script src="./lib/peerjs.min.js"></script>
+    <script src="./lib/socket.io.js"></script>
+    <script src="./tabla_pisos/tabla_pisos.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
